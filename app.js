@@ -17,7 +17,6 @@ res.json({"tutorial" : "Construyendo una API REST con NodeJS"});
 });
 // Rutas publicas
 app.use('/interruptores', interruptores);
-// Rutas privadas que solo pueden ser consumidas con un token generado
 
 // Manejando errores HTTP 404 para solicitudes de contenido inexistente
 app.use(function(req, res, next) {

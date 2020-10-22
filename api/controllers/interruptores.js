@@ -3,7 +3,7 @@ const interruptorModel = require('../models/interruptores');
 
 // Codificamos las operaciones que se podran realizar con relacion a los usuarios
 module.exports = {
-// Metodo para la busqueda de videojuegos por ID
+// Metodo para la busqueda de interruptores por ID
  getById: function(req, res, next) {
   console.log(req.body);
   interruptorModel.findById(req.params.interruptorId, function(err, interruptorInfo){
@@ -14,7 +14,7 @@ module.exports = {
    }
   });
  },
-//Metodo para retornar todos los videojuegos registrados en la base de datos
+//Metodo para retornar todos los interruptores registrados en la base de datos
 getAll: function(req, res, next) {
   let interruptores = [];
   interruptorModel.find({}, function(err, Interruptores){
