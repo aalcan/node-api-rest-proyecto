@@ -22,7 +22,7 @@ getAll: function(req, res, next) {
   		next(err);
   	} else{
   		for (let interruptor of Interruptores) {
-  			interruptores.push({id: interruptor._id, nombre: interruptor.nombre, estado: interruptor.esta commdo});
+  			interruptores.push({id: interruptor._id, nombre: interruptor.nombre, estado: interruptor.estado});
   		}
   		res.json({status:"success", message: "Interruptores list found!!!", data:{Interruptores: interruptores}}); 
   	}
