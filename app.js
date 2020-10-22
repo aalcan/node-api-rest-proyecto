@@ -13,7 +13,7 @@ app.use(logger('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.get('/', function(req, res){
-res.json({"tutorial" : "Construyendo una API REST con NodeJS"});
+res.json({"Mini proyecto" : "Construyendo una API REST con NodeJS"});
 });
 // Rutas publicas
 app.use('/interruptores', interruptores);
