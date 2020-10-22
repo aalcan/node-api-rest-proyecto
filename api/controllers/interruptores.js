@@ -4,7 +4,7 @@ const interruptorModel = require('../models/interruptores');
 // Codificamos las operaciones que se podran realizar con relacion a los usuarios
 module.exports = {
 // Metodo para la busqueda de interruptores por ID
- getById: function(req, res, next) {
+ getById: async (req, res, next) =>{
   console.log(req.body);
   interruptorModel.findById(req.params.interruptorId, function(err, interruptorInfo){
    if (err) {
@@ -15,9 +15,9 @@ module.exports = {
   });
  },
 //Metodo para retornar todos los interruptores registrados en la base de datos
-getAll: function(req, res, next) {
+getAll: async (req, res, next)  => {
   let interruptores = [];
-  interruptorModel.find({}, function(err, Interruptores){
+  await interruptorModel.find({}, function(err, Interruptores){
   	if (err){
   		next(err);
   	} else{
@@ -30,8 +30,8 @@ getAll: function(req, res, next) {
 },
 
 //Metodo para crear algun registro nuevo
-create: function(req, res, next) {
-  interruptorModel.create(req.body, function (err, result) {
+create: async(req, res, next) => {
+  await interruptorModel.create(req.body, function (err, result) {
       if (err) 
        next(err);
       else

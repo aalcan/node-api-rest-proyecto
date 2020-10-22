@@ -12,8 +12,9 @@ mongoose.connection.on('error', console.error.bind(console, 'Error de conexion e
 app.use(logger('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+
 app.get('/', function(req, res){
-res.json({"Mini proyecto" : "Construyendo una API REST con NodeJS"});
+  res.json({"Mini proyecto" : "Construyendo una API REST con NodeJS"});
 });
 // Rutas publicas
 app.use('/interruptores', interruptores);
