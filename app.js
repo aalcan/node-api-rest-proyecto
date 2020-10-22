@@ -1,21 +1,39 @@
-var express = require("express"),
-    app = express(),
-    bodyParser  = require("body-parser"),
-    methodOverride = require("method-override");
-    mongoose = require('mongoose');
+const express = require('express');
+const logger = require('morgan');
+const videogames = require('./routes/interruptores') ;
+const interruptores = require('./routes/interruptores');
+const bodyParser = require('body-parser');
+const mongoose = require('./config/database'); 
+const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }));
+// Conectando a la base de datos de Mongo
+mongoose.connection.on('error', console.error.bind(console, 'Error de conexion en MongoDB'));
+
+app.use(logger('dev'));
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(methodOverride());
-
-var router = express.Router();
-
-router.get('/', function(req, res) {
-   res.send("Hello World!");
+app.get('/', function(req, res){
+res.json({"tutorial" : "Construyendo una API REST con NodeJS"});
 });
+// Rutas publicas
+app.use('/interruptores', interruptores);
+// Rutas privadas que solo pueden ser consumidas con un token generado
 
-app.use(router);
-
-app.listen(3300, function() {
-  console.log("Node server running on http://localhost:3300");
+// Manejando errores HTTP 404 para solicitudes de contenido inexistente
+app.use(function(req, res, next) {
+ let err = new Error('Not Found');
+    err.status = 404;
+    next(err);
+});
+// Manejo de errores, respuestas con codigo HTTP 500, HTTP 404
+app.use(function(err, req, res, next) {
+ console.log(err);
+ 
+  if(err.status === 404)
+   res.status(404).json({message: "Not found"});
+  else 
+    res.status(500).json({message: "Error interno en el servidor!!"});
+});
+app.listen(3300, function(){
+ console.log('El servidor ha sido inicializado: http://localhost:3000');
 });
