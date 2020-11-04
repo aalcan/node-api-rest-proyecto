@@ -39,4 +39,13 @@ create: async(req, res, next) => {
       
     });
  },
+ updateById: async (req, res, next) =>{
+  interruptorModel.findByIdAndUpdate(req.params.interruptorId,{estado:req.body.estado} ,function(err, interruptorInfo){
+   if (err) {
+    next(err);
+   } else {
+    res.json({status:"success", message: "Interruptor updated successfully!!!", data:{interruptor: interruptorInfo}});
+   }
+  });
+ },
 }
