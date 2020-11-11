@@ -13,6 +13,8 @@
 const char* ssid = "armandt";
 const char* password = "NgfyoiGl19";
 const char* host = "192.168.1.68";
+int estadoAnterior;
+int estadoActual;
 
  
 void setup () {
@@ -41,12 +43,11 @@ void setup () {
   Serial.println("WiFi connected"); 
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
+  estadoAnterior = digitalRead(5);
 }
  
 void loop() {
   
-  Serial.print("connecting to ");
-  Serial.println(host);
  
   WiFiClient client;
   const int httpPort = 3300; // Puerto HTTP
@@ -55,47 +56,28 @@ void loop() {
     Serial.println("Ha fallado la conexión");
     return;
   }else{
-    HTTPClient http;                                                                                  
-    http.begin("http://192.168.1.68:3300/interruptores/5f90f2b85b8af0200afcc642");
-
-    int httpCode = http.GET();         //Send the request
-    String payload = http.getString(); //Get the request response payload
-    if (httpCode > 0)
-    {
-      String payload2 = payload;
-      char json[500];
-      payload2.toCharArray(json, 500);
-
-      Serial.println("Respuesta de la peticion");
-      Serial.println(payload2);
-      StaticJsonDocument<256> doc;
-
-      deserializeJson(doc, json);
-
-    String interruptor = doc["interruptor"];
-    int est = doc["data"]["interruptor"]["estado"];
-    int val=digitalRead(5);
-     Serial.println("Respuesta de la peticion"+est);
-    if(est!=val){
-      post("5f90f2b85b8af0200afcc642",val);
+    estadoActual = digitalRead(5);
+    if(estadoAnterior!=estadoActual){
+      estadoAnterior = estadoActual;
+      int izq = digitalRead(4);
+      int der = digitalRead(5);
+      post(izq,der);
+    }else{
       delay(1000);
-     }
-     delay(1000);
-    
-    
     }
   }
   
  
 }
 
-void post(String id, int est) {
+void post(int izq,int der) {
   HTTPClient http;
   String json;
-  String server = "http://192.168.1.68:3300/interruptores/"+id;
+  String server = "http://192.168.1.68:3300/interruptores/";
 
   StaticJsonDocument<256> doc;
-  doc["estado"] = String(est);
+  doc["izquierdo"] = (izq);
+  doc["derecho"] = (der);
   serializeJson(doc, json);
   
   http.begin(server);
@@ -103,4 +85,5 @@ void post(String id, int est) {
   http.POST(json);
   http.writeToStream(&Serial);
   http.end();
+  Serial.println("");
 }

@@ -22,7 +22,7 @@ getAll: async (req, res, next)  => {
   		next(err);
   	} else{
   		for (let interruptor of Interruptores) {
-  			interruptores.push({id: interruptor._id, nombre: interruptor.nombre, estado: interruptor.estado});
+  			interruptores.push({id: interruptor._id, izquierdo: interruptor.izquierdo, derecho: interruptor.derecho});
   		}
   		res.json({status:"success", message: "Interruptores list found!!!", data:{Interruptores: interruptores}}); 
   	}
