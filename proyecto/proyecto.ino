@@ -80,7 +80,7 @@ void loop() {
 void post() {
   HTTPClient http;
   String json;
-  String server = "http://192.168.1.68:3300/interruptores/";
+  String server = "http://144.202.34.148:3132/interruptores";
   float t = dht.readTemperature();
 
   StaticJsonDocument<256> doc;
