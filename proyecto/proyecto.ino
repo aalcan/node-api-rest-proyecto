@@ -5,6 +5,14 @@
 #include <ArduinoJson.h>
 #include <ESP8266HTTPClient.h>
 #include <WiFiClient.h>
+#include <DHT.h>
+ 
+// Definimos el pin digital donde se conecta el sensor
+#define DHTPIN 2
+// Dependiendo del tipo de sensor
+#define DHTTYPE DHT11
+
+DHT dht(DHTPIN, DHTTYPE);
  
 //#include "config.h"  // Sustituir con datos de vuestra red
 //#include "API.hpp"
@@ -20,6 +28,7 @@ int estadoActual;
 void setup () {
   Serial.begin(115200);
   delay(10);
+  dht.begin();
  
   // Conectamos a la red WiFi
  
@@ -59,9 +68,7 @@ void loop() {
     estadoActual = digitalRead(5);
     if(estadoAnterior!=estadoActual){
       estadoAnterior = estadoActual;
-      int izq = digitalRead(4);
-      int der = digitalRead(5);
-      post(izq,der);
+      post();
     }else{
       delay(1000);
     }
@@ -70,14 +77,14 @@ void loop() {
  
 }
 
-void post(int izq,int der) {
+void post() {
   HTTPClient http;
   String json;
   String server = "http://192.168.1.68:3300/interruptores/";
+  float t = dht.readTemperature();
 
   StaticJsonDocument<256> doc;
-  doc["izquierdo"] = (izq);
-  doc["derecho"] = (der);
+  doc["temperatura"] = (t);
   serializeJson(doc, json);
   
   http.begin(server);

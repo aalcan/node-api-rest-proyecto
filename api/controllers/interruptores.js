@@ -22,7 +22,7 @@ getAll: async (req, res, next)  => {
   		next(err);
   	} else{
   		for (let interruptor of Interruptores) {
-  			interruptores.push({id: interruptor._id, izquierdo: interruptor.izquierdo, derecho: interruptor.derecho});
+  			interruptores.push({id: interruptor._id, temperatura: interruptor.temperatura, fecha: interruptor.fecha});
   		}
   		res.json({status:"success", message: "Interruptores list found!!!", data:{Interruptores: interruptores}}); 
   	}
@@ -31,7 +31,7 @@ getAll: async (req, res, next)  => {
 
 //Metodo para crear algun registro nuevo
 create: async(req, res, next) => {
-  await interruptorModel.create(req.body, function (err, result) {
+  await interruptorModel.create({temperatura:req.body.temperatura, fecha: Date.now()}, function (err, result) {
       if (err) 
        next(err);
       else

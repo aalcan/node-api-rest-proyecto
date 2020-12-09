@@ -4,12 +4,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 // Creamos el objeto del esquema con sus correspondientes campos
 const interruptorSchema = new Schema({
- izquierdo: {
+ temperatura: {
   type: Number,
   required: true
  },
- derecho: {
-  type: Number,
+ fecha: {
+  type: Date,
   required: true
  },
 });
