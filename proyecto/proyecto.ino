@@ -20,7 +20,7 @@ DHT dht(DHTPIN, DHTTYPE);
 
 const char* ssid = "armandt";
 const char* password = "NgfyoiGl19";
-const char* host = "192.168.1.68";
+const char* host = "144.202.34.148";
 int estadoAnterior;
 int estadoActual;
 
@@ -59,7 +59,7 @@ void loop() {
   
  
   WiFiClient client;
-  const int httpPort = 3300; // Puerto HTTP
+  const int httpPort = 3132; // Puerto HTTP
   if (!client.connect(host, httpPort)) {
     // ¿hay algún error al conectar?
     Serial.println("Ha fallado la conexión");
